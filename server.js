@@ -11,10 +11,14 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.get('/api/notes', (req, res) => res.json(data));
-app.get('/api/notes/:id', (req, res) => {
-  res.json(data.find(note => note.id === Number(req.params.id)));
+app.get('/api/notes', (req, res) => {
+  let notesList = [...data];
+  if (req.query.searchTerm) {
+    notesList = notesList.filter(note => note.title.includes(req.query.searchTerm));
+  }
+  res.json(notesList);
 });
+app.get('/api/notes/:id', (req, res) => res.json(data.find(note => note.id === Number(req.params.id))));
 
 app.listen(8080, function() {
   console.info(`Server listening on ${this.address().port}`);
