@@ -2,8 +2,8 @@
 
 const morgan = require('morgan');
 
-// function requestLogger(req, res, next) {
-//   return morgan(':date :method :url');
-// }
+function requestLogger(req, res, next) {
+  morgan(':date :method :url')(req, res, next);
+}
 
-module.exports = { requestLogger: morgan(':date :method :url') };
+module.exports = { requestLogger };
