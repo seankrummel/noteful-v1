@@ -72,16 +72,20 @@ const noteful = (function () {
       const editForm = $(event.currentTarget);
 
       const noteObj = {
+        id: store.currentNote.id,
         title: editForm.find('.js-note-title-entry').val(),
         content: editForm.find('.js-note-content-entry').val()
       };
 
-      noteObj.id = store.currentNote.id;
-
-      api.update(noteObj.id, noteObj, updateResponse => {
-        store.currentNote = updateResponse;
-        render();
-      });
+      if (noteObj.id) {
+        api.update(noteObj.id, noteObj, updateResponse => {
+          store.currentNote = updateResponse;
+          api.search(store.currentSearchTerm, searchResponse => {
+            store.notes = searchResponse;
+            render();
+          });
+        });
+      }
     });
   }
 
