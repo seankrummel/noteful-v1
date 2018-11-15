@@ -2,6 +2,7 @@
 
 // Simple In-Memory Database (async-callback version)
 const DELAY = 100;
+const {promisify} = require('util');
 
 const simDB = {
 
@@ -103,4 +104,13 @@ const simDB = {
 
 };
 
-module.exports = Object.create(simDB);
+const simDB_Async = {
+  initialize: simDB.initialize,
+  create: promisify(simDB.create),
+  filter: promisify(simDB.filter),
+  find: promisify(simDB.find),
+  update: promisify(simDB.update),
+  delete: promisify(simDB.delete)
+};
+
+module.exports = Object.create(simDB_Async);
