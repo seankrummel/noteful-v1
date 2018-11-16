@@ -54,7 +54,7 @@ router.post('/', (req, res, next) => {
   const newItem = {title, content};
   if (!newItem.title) {
     const err = new Error('Missing `title` in request body');
-    err.status(404);
+    err.status = 404;
     return next(err);
   }
 
